@@ -6,9 +6,6 @@ import path from "path";
 import knex from "knex";
 
 // @ts-ignore
-import Dialect from "knex/lib/dialects/sqlite3/index.js";
-
-import sqlite from "@louislam/sqlite3";
 import { sleep } from "../common/util-common";
 
 interface DBConfig {
@@ -109,10 +106,9 @@ export class Database {
 
         if (dbConfig.type === "sqlite") {
             this.sqlitePath = path.join(this.server.config.dataDir, "dockge.db");
-            Dialect.prototype._driver = () => sqlite;
 
             config = {
-                client: Dialect,
+                client: "sqlite3",
                 connection: {
                     filename: Database.sqlitePath,
                     acquireConnectionTimeout: acquireConnectionTimeout,
